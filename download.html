@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICE-GPT | Download Center</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #ffd700; /* Warna Emas untuk highlight */
+            --glass-bg: rgba(16, 26, 45, 0.7);
+            --glass-border: rgba(0, 242, 254, 0.3);
+            --neon-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: url('https://files.catbox.moe/dtovqu.jpg') no-repeat center center/cover fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: -1;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            width: 100%;
+            max-width: 500px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+        }
+
+        /* Banner Section */
+        .banner-container {
+            width: 100%;
+            height: 200px; /* Tinggi banner */
+            overflow: hidden;
+            position: relative;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Menggunakan trik CSS agar link imgbb bisa tampil jika direct link tidak valid, 
+               tapi disarankan ganti dengan link akhiran .jpg/.png */
+            content: url('https://files.catbox.moe/39953s.jpg'); 
+            /* Note: Saya mencoba mengambil direct link dari ibb user, jika mati ganti linknya */
+            transition: transform 0.5s;
+        }
+
+        .banner-container:hover .banner-img {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 25px;
+            text-align: center;
+        }
+
+        /* Logo Text */
+        .app-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(to bottom, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: -10px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        }
+
+        .desc {
+            font-size: 0.9rem;
+            color: #cfd8dc;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Logic Button Style */
+        .download-wrapper {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .btn-main {
+            background: linear-gradient(90deg, #1cb5e0 0%, #000851 100%);
+            border: 1px solid var(--primary);
+            color: white;
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main:disabled {
+            background: #2c3e50;
+            cursor: wait;
+            border-color: #555;
+            box-shadow: none;
+        }
+
+        .btn-main:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
+        }
+
+        /* Loading Bar Animation */
+        .loading-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* Features List */
+        .features-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feat-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .feat-row i {
+            color: var(--primary);
+            width: 25px;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .feat-row.bad i { color: #ff4757; }
+
+        /* Owner & Footer */
+        .footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.8rem;
+            color: #8892b0;
+        }
+        
+        .social-link {
+            color: #fff;
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+        .social-link:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .highlight { color: var(--accent); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="card">
+        <div class="banner-container">
+            <img src="https://files.catbox.moe/39953s.jpg" alt="ICE-GPT Banner" class="banner-img">
+        </div>
+
+        <div class="card-body">
+            <h1 class="app-name">𝙸𝙲𝙴-𝙶𝙿𝚃 <span style="color: var(--primary);">❄️</span></h1>
+            <p class="desc">
+                AI generasi terbaru dengan kemampuan tanpa batas. <br>
+                <span class="highlight">Simple • Powerful • No Session</span>
+            </p>
+
+            <div class="download-wrapper">
+                <button id="downloadBtn" class="btn-main" onclick="startProcess()">
+                    <i class="fa-brands fa-android"></i> INSTALL APPLICATION
+                    <div class="loading-bar" id="loadBar"></div>
+                </button>
+                <p id="statusText" style="font-size: 0.75rem; margin-top: 8px; color: var(--secondary); height: 15px;"></p>
+            </div>
+
+            <div class="features-box">
+                <div class="feat-row"><i class="fa-solid fa-check"></i> Cek NIK & OSINT User</div>
+                <div class="feat-row"><i class="fa-solid fa-check"></i> Edit Foto & Generate AI</div>
+                <div class="feat-row"><i class="fa-solid fa-check"></i> Pencarian Multi-Source</div>
+                <div class="feat-row bad"><i class="fa-solid fa-xmark"></i> No Memory</div>
+                <div class="feat-row bad"><i class="fa-solid fa-xmark"></i> Chat selalu Reset</div>
+            </div>
+
+            <div class="footer">
+                <p style="margin-bottom: 10px;">Developed by <strong>Ray White</strong></p>
+                <div>
+                    <a href="https://t.me/RayyAckerman" target="_blank" class="social-link"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="https://tiktok.com/@rayysuki" target="_blank" class="social-link"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.7rem; opacity: 0.5;">&copy; 2026 ICE-GPT Project</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Link Download Asli
+        const FILE_URL = "https://www.mediafire.com/file/9cdg6bh97j9i5o2/%F0%9D%99%B8%F0%9D%99%B2%F0%9D%99%B4-%F0%9D%99%B6%F0%9D%99%BF%F0%9D%9A%83.apk/file?dkey=9reqrq1cptr&r=1505";
+
+        function startProcess() {
+            const btn = document.getElementById('downloadBtn');
+            const bar = document.getElementById('loadBar');
+            const status = document.getElementById('statusText');
+            const icon = btn.querySelector('i');
+
+            // 1. Disable button biar ga spam klik
+            btn.disabled = true;
+            
+            // Tahap 1: Connecting
+            status.innerText = "Menghubungkan ke server...";
+            status.style.color = "#4facfe";
+            icon.className = "fa-solid fa-circle-notch fa-spin"; // Ikon loading
+            
+            let width = 0;
+            const interval = setInterval(() => {
+                width += Math.random() * 5; // Random speed biar natural
+                if (width > 30 && width < 40) {
+                    status.innerText = "Memverifikasi file...";
+                }
+                if (width > 60 && width < 70) {
+                    status.innerText = "Mengambil data (ICE-GPT.apk)...";
+                }
+                if (width >= 100) {
+                    width = 100;
+                    clearInterval(interval);
+                    
+                    // Tahap Akhir: Download Ready
+                    status.innerText = "Download dimulai!";
+                    status.style.color = "#00f2fe";
+                    bar.style.width = "100%";
+                    
+                    setTimeout(() => {
+                        // Buka link di tab baru (Metode paling aman untuk Mediafire)
+                        window.open(FILE_URL, '_blank');
+                        
+                        // Reset tombol setelah 3 detik
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            status.innerText = "";
+                            bar.style.width = "0%";
+                            btn.innerHTML = '<i class="fa-brands fa-android"></i> INSTALL APPLICATION <div class="loading-bar" id="loadBar"></div>';
+                        }, 3000);
+                    }, 800);
+                }
+                bar.style.width = width + "%";
+            }, 50); // Kecepatan update loading bar
+        }
+    </script>
+
+</body>
+</html>
